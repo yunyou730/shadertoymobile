@@ -2,6 +2,8 @@ package com.example.bibabo;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.opengl.GLU;
+import android.util.Log;
 
 public class WizardView extends GLSurfaceView {
 
@@ -14,5 +16,9 @@ public class WizardView extends GLSurfaceView {
         setRenderer(renderer);
 
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
     }
+
+
+
 }
