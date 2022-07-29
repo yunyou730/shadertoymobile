@@ -10,15 +10,15 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class WizardRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener {
+public class WizardRenderer implements GLSurfaceView.Renderer  {
 
-    protected FloatBuffer mVertexBuffer;
-
+    private Triangle mTriangle;
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        prepareRes();
         GLES30.glClearColor(0.3f,1.0f,0.8f,1.0f);
+
+        mTriangle = new Triangle();
     }
 
     @Override
@@ -30,24 +30,18 @@ public class WizardRenderer implements GLSurfaceView.Renderer, SurfaceTexture.On
     public void onDrawFrame(GL10 gl) {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
 
-    }
-
-    @Override
-    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+        mTriangle.draw();
 
     }
 
-    protected void prepareRes() {
+    public static int loadShader(int type, String shaderCode) {
+        int shader = GLES30.glCreateShader(type);
 
-        WizardScene01 scene = new WizardScene01();
-        scene.prepareShader();
+        GLES30.glShaderSource(shader, shaderCode);
+        GLES30.glCompileShader(shader);
 
-
-
-//        GLUtils.readRawTextFile();
-//        GLUtils.loadProgram();
-
-//        AssetUtil a;
-
+        return shader;
     }
+
+
 }
