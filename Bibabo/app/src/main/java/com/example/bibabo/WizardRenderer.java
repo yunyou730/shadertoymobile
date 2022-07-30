@@ -1,5 +1,6 @@
 package com.example.bibabo;
 
+import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES30;
 import android.opengl.GLES31;
@@ -13,12 +14,14 @@ import javax.microedition.khronos.opengles.GL10;
 public class WizardRenderer implements GLSurfaceView.Renderer  {
 
     private Triangle mTriangle;
+    private Rectangle mRect;
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         GLES30.glClearColor(0.3f,1.0f,0.8f,1.0f);
 
         mTriangle = new Triangle();
+        mRect = new Rectangle();
     }
 
     @Override
@@ -29,9 +32,8 @@ public class WizardRenderer implements GLSurfaceView.Renderer  {
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
-
+        mRect.draw();
         mTriangle.draw();
-
     }
 
     public static int loadShader(int type, String shaderCode) {
