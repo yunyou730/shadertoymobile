@@ -1,11 +1,17 @@
 package com.example.bibabo;
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.util.Log;
+import android.view.TextureView;
 
-public class WizardView extends GLSurfaceView {
+import androidx.annotation.NonNull;
+
+public class WizardView
+        extends GLSurfaceView
+        implements SurfaceTexture.OnFrameAvailableListener {
 
     private final WizardRenderer renderer;
 
@@ -14,11 +20,13 @@ public class WizardView extends GLSurfaceView {
         setEGLContextClientVersion(3);
         renderer = new WizardRenderer();
         setRenderer(renderer);
+        renderer.setHolderView(this);
 
-        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
-
+        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
-
-
+    @Override
+    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+        requestRender();
+    }
 }

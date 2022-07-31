@@ -11,10 +11,22 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class WizardRenderer implements GLSurfaceView.Renderer  {
+import android.graphics.SurfaceTexture;
+import android.util.Log;
+
+public class WizardRenderer implements GLSurfaceView.Renderer,SurfaceTexture.OnFrameAvailableListener {
+
+    private CameraUtil mCameraManager = new CameraUtil();
 
     private Triangle mTriangle;
     private Rectangle mRect;
+    private CameraDrawer mCamDrawer;
+
+    WizardView mHolderView = null;
+    void setHolderView(WizardView holderView)
+    {
+        mHolderView = holderView;
+    }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -22,6 +34,13 @@ public class WizardRenderer implements GLSurfaceView.Renderer  {
 
         mTriangle = new Triangle();
         mRect = new Rectangle();
+        mCamDrawer = new CameraDrawer();
+
+        mCameraManager.openCamera();
+        mCamDrawer.getSurfaceTexture().setOnFrameAvailableListener(mHolderView);
+        mCameraManager.setPreviewTexture(mCamDrawer.getSurfaceTexture());
+
+
     }
 
     @Override
@@ -34,6 +53,10 @@ public class WizardRenderer implements GLSurfaceView.Renderer  {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
         mRect.draw();
         mTriangle.draw();
+
+
+        mCamDrawer.getSurfaceTexture().updateTexImage();
+        mCamDrawer.draw();
     }
 
     public static int loadShader(int type, String shaderCode) {
@@ -46,4 +69,9 @@ public class WizardRenderer implements GLSurfaceView.Renderer  {
     }
 
 
+    @Override
+    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+        System.out.print("xxx");
+
+    }
 }
