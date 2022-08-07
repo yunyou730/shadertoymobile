@@ -3,22 +3,30 @@ package com.example.bibabo;
 
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
+
+import android.util.Log;
 import android.view.SurfaceHolder;
+//import android.hardware.Camera2;
 
 import java.io.IOException;
+import java.util.List;
 
 public class CameraUtil {
     private Camera camera = null;
 
     public void openCamera()
     {
+//        CameraDevice _cam = null;
         camera = Camera.open();
-        Camera.Parameters parameters = camera.getParameters();
 
+//
+
+        Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         camera.setParameters(parameters);
-
-//        camera.setDisplayOrientation(180);
         camera.startPreview();
     }
 
@@ -48,6 +56,14 @@ public class CameraUtil {
             e.printStackTrace();
         }
     }
+
+
+//    public void setOrientation()
+//    {
+//        camera.setDisplayOrientation(90);
+////        camera.
+//    }
+
 
 //
 //    public void getCameraInfo()
