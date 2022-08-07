@@ -19,13 +19,21 @@ public class CameraDrawer {
 
     static float coords[] = {
             // pos & uv
-            -0.5f,-0.5f,0.0f, 0.0f,0.0f,
-             0.5f,-0.5f,0.0f, 1.0f,0.0f,
-            -0.5f, 0.5f,0.0f, 0.0f,1.0f,
+//            -0.5f,-0.5f,0.0f, 0.0f,0.0f,
+//             0.5f,-0.5f,0.0f, 1.0f,0.0f,
+//            -0.5f, 0.5f,0.0f, 0.0f,1.0f,
+//
+//             0.5f,-0.5f,0.0f, 1.0f,0.0f,
+//             0.5f, 0.5f,0.0f, 1.0f,1.0f,
+//            -0.5f, 0.5f,0.0f, 0.0f,1.0f,
 
-             0.5f,-0.5f,0.0f, 1.0f,0.0f,
-             0.5f, 0.5f,0.0f, 1.0f,1.0f,
-            -0.5f, 0.5f,0.0f, 0.0f,1.0f,
+            -1.0f,-1.0f,0.0f, 0.0f,0.0f,
+             1.0f,-1.0f,0.0f, 1.0f,0.0f,
+            -1.0f, 1.0f,0.0f, 0.0f,1.0f,
+
+             1.0f,-1.0f,0.0f, 1.0f,0.0f,
+             1.0f, 1.0f,0.0f, 1.0f,1.0f,
+            -1.0f, 1.0f,0.0f, 0.0f,1.0f,
     };
 
 
@@ -45,8 +53,9 @@ public class CameraDrawer {
             "uniform samplerExternalOES s_texture;" +
             "void main() {" +
             "   vec4 texColor = texture2D(s_texture,vUV);" +
-            //"  gl_FragColor = texColor + vec4(vUV.x,vUV.y,0.0,1.0);" +
-            "  gl_FragColor = texColor;" +
+//            "   vec4 texColor = texture2D(s_texture,vec2(vUV.x,1.0-vUV.y));" +
+            "  gl_FragColor = texColor * vec4(vUV.x,vUV.y,0.0,1.0);" +
+//            "  gl_FragColor = texColor;" +
             "}";
 
     private final int mProgram;

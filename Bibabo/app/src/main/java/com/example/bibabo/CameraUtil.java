@@ -18,6 +18,7 @@ public class CameraUtil {
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         camera.setParameters(parameters);
 
+//        camera.setDisplayOrientation(180);
         camera.startPreview();
     }
 
@@ -47,5 +48,12 @@ public class CameraUtil {
             e.printStackTrace();
         }
     }
+
+//
+//    public void getCameraInfo()
+//    {
+//        Camera.CameraInfo info = new Camera.CameraInfo();
+//        Camera.getCameraInfo(camera,info);
+//    }
 
 }

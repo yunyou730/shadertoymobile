@@ -17,7 +17,9 @@
         <activity
             android:name=".WizardActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Bibabo.NoActionBar">
+            android:theme="@style/Theme.Bibabo.NoActionBar"
+            android:screenOrientation="landscape"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

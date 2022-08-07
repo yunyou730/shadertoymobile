@@ -14,7 +14,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.graphics.SurfaceTexture;
 import android.util.Log;
 
-public class WizardRenderer implements GLSurfaceView.Renderer,SurfaceTexture.OnFrameAvailableListener {
+public class WizardRenderer implements GLSurfaceView.Renderer {
 
     private CameraUtil mCameraManager = new CameraUtil();
 
@@ -66,12 +66,5 @@ public class WizardRenderer implements GLSurfaceView.Renderer,SurfaceTexture.OnF
         GLES30.glCompileShader(shader);
 
         return shader;
-    }
-
-
-    @Override
-    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-        System.out.print("xxx");
-
     }
 }
