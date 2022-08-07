@@ -39,6 +39,7 @@ public class OpenGLUtils {
     public static int[] createTextures(int textureTarget, int count, int minFilter, int magFilter, int wrapS,
                                        int wrapT) {
         int[] textureHandles = new int[count];
+//        GLES30.glActiveTexture(textureTarget);
         for (int i = 0; i < count; i++) {
             // 1.生成纹理
             GLES30.glGenTextures(1, textureHandles, i);

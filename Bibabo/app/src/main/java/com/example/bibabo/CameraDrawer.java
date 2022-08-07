@@ -130,8 +130,7 @@ public class CameraDrawer {
 
 
         // Texture
-        GLES30.glActiveTexture(mTextureID);
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D,mTextureID);
+        GLES30.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,mTextureID);
 
         // Draw the triangle
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, vertexCount);

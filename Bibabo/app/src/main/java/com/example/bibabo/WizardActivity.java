@@ -1,12 +1,15 @@
 package com.example.bibabo;
 
 import android.Manifest;
+//import android.annotation.NonNull;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Camera;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PackageManagerCompat;
@@ -41,5 +44,14 @@ public class WizardActivity extends Activity {
 
 
 //        mCamera = Camera.open(1);
+    }
+
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults)
+    {
+
+        Log.d("test","test");
+
     }
 }

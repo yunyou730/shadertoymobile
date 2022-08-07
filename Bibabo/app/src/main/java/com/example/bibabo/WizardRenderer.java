@@ -39,8 +39,6 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
         mCameraManager.openCamera();
         mCamDrawer.getSurfaceTexture().setOnFrameAvailableListener(mHolderView);
         mCameraManager.setPreviewTexture(mCamDrawer.getSurfaceTexture());
-
-
     }
 
     @Override
