@@ -3,11 +3,6 @@ package com.example.bibabo;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLU;
-import android.util.Log;
-import android.view.TextureView;
-
-import androidx.annotation.NonNull;
 
 public class WizardView
         extends GLSurfaceView

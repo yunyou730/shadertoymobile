@@ -102,7 +102,6 @@ public class CameraDrawer {
         );
         mTextureID = textures[0];
         mCameraSurfaceTexture = new SurfaceTexture(mTextureID);
-
     }
 
 

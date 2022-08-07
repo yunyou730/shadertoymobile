@@ -54,7 +54,6 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
         mRect.draw();
         mTriangle.draw();
 
-
         mCamDrawer.getSurfaceTexture().updateTexImage();
         mCamDrawer.draw();
     }

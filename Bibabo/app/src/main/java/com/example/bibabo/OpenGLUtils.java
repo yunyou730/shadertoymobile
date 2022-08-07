@@ -54,6 +54,7 @@ public class OpenGLUtils {
             // 设置纹理的Y方向边缘环绕
             GLES30.glTexParameteri(textureTarget, GLES30.GL_TEXTURE_WRAP_T, wrapT);
         }
+        GLES30.glBindTexture(textureTarget, 0);
         return textureHandles;
     }
 
