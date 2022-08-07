@@ -26,32 +26,63 @@ public class WizardActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Request camera permission
-        String[] pers = new String[1];
-        pers[0] = Manifest.permission.CAMERA;
-        ActivityCompat.requestPermissions(this, pers,1);
-
+        Log.d("ayy","WizardActivity,0");
 
         // Check camera permission
-        int n = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);// == PackageManager.PERMISSION_GRANTED
-        if(n == PackageManager.PERMISSION_GRANTED)
+        int permissionState = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        if(permissionState == PackageManager.PERMISSION_GRANTED)
         {
-            // If OK ,goto next codes
-            view = new WizardView(this);
-            setContentView(view);
+            Log.d("ayy","WizardActivity,1");
+            showWizardView();
         }
-
-
-
-//        mCamera = Camera.open(1);
+        else
+        {
+            Log.d("ayy","WizardActivity,2");
+            // Request camera permission
+            String[] pers = new String[1];
+            pers[0] = Manifest.permission.CAMERA;
+            ActivityCompat.requestPermissions(this, pers,1);
+        }
     }
 
+    protected void showWizardView()
+    {
+        view = new WizardView(this);
+        setContentView(view);
+    }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults)
     {
+        StringBuffer sb = new StringBuffer();
+        sb.append("------\n");
+        for(int i = 0;i < permissions.length;i++)
+        {
+            sb.append(permissions[i] + "=>" + grantResults[i] + "\n");
+        }
+        sb.append("======\n");
+        Log.d("ayy",sb.toString());
 
-        Log.d("test","test");
 
+        boolean bCameraPermissionGranted = false;
+        if(permissions.length > 0)
+        {
+            for(int i = 0;i < permissions.length;i++)
+            {
+                if(permissions[i].equals("android.permission.CAMERA"))
+                {
+                    if(grantResults[i] == PackageManager.PERMISSION_GRANTED)
+                    {
+                        bCameraPermissionGranted = true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        if(bCameraPermissionGranted)
+        {
+            showWizardView();
+        }
     }
 }
