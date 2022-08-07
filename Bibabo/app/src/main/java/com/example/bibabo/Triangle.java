@@ -1,5 +1,6 @@
 package com.example.bibabo;
 
+import android.graphics.Shader;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
 
@@ -49,14 +50,7 @@ public class Triangle {
 
     public Triangle() {
         // Prepare shaders
-        int vertexShader = WizardRenderer.loadShader(GLES30.GL_VERTEX_SHADER,
-                vertexShaderCode);
-        int fragmentShader = WizardRenderer.loadShader(GLES30.GL_FRAGMENT_SHADER,
-                fragmentShaderCode);
-        mProgram = GLES30.glCreateProgram();
-        GLES30.glAttachShader(mProgram, vertexShader);
-        GLES30.glAttachShader(mProgram, fragmentShader);
-        GLES30.glLinkProgram(mProgram);
+        mProgram = ShaderUtil.createProgram(vertexShaderCode,fragmentShaderCode);
 
         // Prepare mesh data
         // 4 bytes per float

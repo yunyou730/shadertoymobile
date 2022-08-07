@@ -2,7 +2,10 @@ package com.example.bibabo;
 
 import android.content.res.Resources;
 import android.opengl.GLES30;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -88,6 +91,7 @@ public class ShaderUtil {
     }
 
     //从sh脚本中加载shader内容的方法
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static String loadFromAssetsFile(String fname, Resources r) {
         String result = null;
         try {

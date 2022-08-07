@@ -59,4 +59,22 @@ public class OpenGLUtils {
         return textureHandles;
     }
 
+    public static int loadShaderProgram(String vsCode,String fsCode) {
+        int vertexShader = GLES30.glCreateShader(GLES30.GL_VERTEX_SHADER);
+        GLES30.glShaderSource(vertexShader, vsCode);
+        GLES30.glCompileShader(vertexShader);
+        
+        int fragShader = GLES30.glCreateShader(GLES30.GL_FRAGMENT_SHADER);
+        GLES30.glShaderSource(fragShader,fsCode);
+        GLES30.glCompileShader(fragShader);
+
+        int program = GLES30.glCreateProgram();
+        GLES30.glAttachShader(program,vertexShader);
+        GLES30.glAttachShader(program,fragShader);
+        GLES30.glLinkProgram(program);
+
+        return program;
+    }
+
+
 }

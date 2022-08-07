@@ -55,13 +55,4 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
         mCamDrawer.getSurfaceTexture().updateTexImage();
         mCamDrawer.draw();
     }
-
-    public static int loadShader(int type, String shaderCode) {
-        int shader = GLES30.glCreateShader(type);
-
-        GLES30.glShaderSource(shader, shaderCode);
-        GLES30.glCompileShader(shader);
-
-        return shader;
-    }
 }

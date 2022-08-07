@@ -50,14 +50,7 @@ public class Rectangle {
 
     public Rectangle() {
         // Prepare shaders
-        int vertexShader = WizardRenderer.loadShader(GLES30.GL_VERTEX_SHADER,
-                vertexShaderCode);
-        int fragmentShader = WizardRenderer.loadShader(GLES30.GL_FRAGMENT_SHADER,
-                fragmentShaderCode);
-        mProgram = GLES30.glCreateProgram();
-        GLES30.glAttachShader(mProgram, vertexShader);
-        GLES30.glAttachShader(mProgram, fragmentShader);
-        GLES30.glLinkProgram(mProgram);
+        mProgram = ShaderUtil.createProgram(vertexShaderCode,fragmentShaderCode);
 
         // Prepare mesh data
         ByteBuffer bb = ByteBuffer.allocateDirect(coords.length * 4); // 4 bytes per float
