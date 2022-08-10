@@ -34,6 +34,11 @@ public class WizardServer extends WebSocketServer {
     }
 
     @Override
+    public void onMessage( WebSocket conn, ByteBuffer message ) {
+        Log.d("ayy","bytebuffer msg:" + byteBufferToString(message));
+    }
+
+    @Override
     public void onError(WebSocket conn, Exception ex) {
         Log.d("ayy","WizardServer.onError:" + ex.toString());
     }

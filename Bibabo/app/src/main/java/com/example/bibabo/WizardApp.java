@@ -18,6 +18,8 @@ public class WizardApp {
     protected WizardActivity mWizardActivity = null;
     protected WizardServer mServer = null;
 
+    protected final int mPort = 7324;
+
     protected  WizardApp() {
         super();
     }
@@ -59,7 +61,7 @@ public class WizardApp {
 
     public void startServer()
     {
-        InetSocketAddress host = new InetSocketAddress(getLocalIPAddress(mWizardActivity),7324);
+        InetSocketAddress host = new InetSocketAddress(getLocalIPAddress(mWizardActivity),getPort());
         mServer = new WizardServer(host);
         mServer.start();
     }
@@ -78,12 +80,17 @@ public class WizardApp {
     public String getLocalIPAddress (Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        String ipAddress = FormatIP(wifiInfo.getIpAddress());
+        String ipAddress = formatIP(wifiInfo.getIpAddress());
         return ipAddress;
     }
 
-    public String FormatIP (int ip) {
+    public String formatIP (int ip) {
         return Formatter.formatIpAddress(ip);
+    }
+
+    public int getPort()
+    {
+        return mPort;
     }
 
 }

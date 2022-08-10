@@ -100,6 +100,6 @@ public class WizardActivity extends Activity {
         String ip = WizardApp.getInstance().getLocalIPAddress(this);
         TextView text = findViewById(R.id.textView);
         text.setTextColor(0xFFFF00FF);
-        text.setText(ip);
+        text.setText("ws://" + ip + ":" + WizardApp.getInstance().getPort());
     }
 }
