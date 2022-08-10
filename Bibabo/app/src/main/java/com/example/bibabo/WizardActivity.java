@@ -1,54 +1,42 @@
 package com.example.bibabo;
 
-import static android.app.AlertDialog.*;
-
-import android.Manifest;
 //import android.annotation.NonNull;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.Camera;
-import android.graphics.Shader;
-import android.hardware.camera2.CameraManager;
-import android.os.Build;
-import android.os.Bundle;
+        import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.PackageManagerCompat;
+
+import com.example.bibabo.server.WizardServer;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 public class WizardActivity extends Activity {
     WizardView mView = null;
-    ShaderServer mServer = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WizardApp.getInstance().registerActivity(this);
 
+
+        launchServer();
         showStoragePathInfo();
         showWizardView();
-        launchServer();
+
+        refreshUI();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         WizardApp.getInstance().unregisterActivity();
+        WizardApp.getInstance().stopServer();
     }
 
     protected void showWizardView()
@@ -104,6 +92,14 @@ public class WizardActivity extends Activity {
 
     protected void launchServer()
     {
-        mServer = new ShaderServer();
+        WizardApp.getInstance().startServer();
+    }
+
+    protected void refreshUI()
+    {
+        String ip = WizardApp.getInstance().getLocalIPAddress(this);
+        TextView text = findViewById(R.id.textView);
+        text.setTextColor(0xFFFF00FF);
+        text.setText(ip);
     }
 }
