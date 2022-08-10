@@ -1,4 +1,4 @@
-package com.example.bibabo;
+package com.example.bibabo.utils;
 
 import android.content.res.Resources;
 import android.opengl.GLES30;

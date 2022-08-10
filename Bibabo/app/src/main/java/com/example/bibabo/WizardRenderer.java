@@ -1,18 +1,12 @@
 package com.example.bibabo;
 
-import android.graphics.Rect;
-import android.graphics.SurfaceTexture;
 import android.opengl.GLES30;
-import android.opengl.GLES31;
 import android.opengl.GLSurfaceView;
-
-import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.graphics.SurfaceTexture;
-import android.util.Log;
+import com.example.bibabo.utils.CameraUtil;
 
 public class WizardRenderer implements GLSurfaceView.Renderer {
 

@@ -1,11 +1,11 @@
 package com.example.bibabo;
 
 import android.graphics.SurfaceTexture;
-import android.media.projection.MediaProjection;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES30;
-import android.opengl.GLUtils;
-import android.view.Surface;
+
+import com.example.bibabo.utils.OpenGLUtils;
+import com.example.bibabo.utils.ShaderUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

@@ -1,4 +1,4 @@
-package com.example.bibabo;
+package com.example.bibabo.utils;
 
 
 import android.graphics.SurfaceTexture;
@@ -19,11 +19,7 @@ public class CameraUtil {
 
     public void openCamera()
     {
-//        CameraDevice _cam = null;
         camera = Camera.open();
-
-//
-
         Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         camera.setParameters(parameters);
@@ -56,20 +52,4 @@ public class CameraUtil {
             e.printStackTrace();
         }
     }
-
-
-//    public void setOrientation()
-//    {
-//        camera.setDisplayOrientation(90);
-////        camera.
-//    }
-
-
-//
-//    public void getCameraInfo()
-//    {
-//        Camera.CameraInfo info = new Camera.CameraInfo();
-//        Camera.getCameraInfo(camera,info);
-//    }
-
 }

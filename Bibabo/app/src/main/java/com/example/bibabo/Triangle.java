@@ -1,13 +1,12 @@
 package com.example.bibabo;
 
-import android.graphics.Shader;
-import android.opengl.GLES20;
 import android.opengl.GLES30;
+
+import com.example.bibabo.utils.ShaderUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 
 public class Triangle {
     private FloatBuffer vertexBuffer = null;

@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Camera;
+import android.graphics.Shader;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,31 +32,37 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class WizardActivity extends Activity {
-    WizardView view = null;
+    WizardView mView = null;
+    ShaderServer mServer = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WizardApp.getInstance().registerActivity(this);
 
         showStoragePathInfo();
         showWizardView();
+        launchServer();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        WizardApp.getInstance().unregisterActivity();
     }
 
     protected void showWizardView()
     {
-//        view = new WizardView(this);
-//        setContentView(view);
         setContentView(R.layout.wizard);
-        view = findViewById(R.id.wizardView2);
+        mView = findViewById(R.id.wizardView2);
 
-        view.setOnTouchListener(new View.OnTouchListener(){
+        mView.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP)
                 {
                     showStoragePathInfo();
                 }
-//                alertMessage(event.toString());
                 return true;
             }
         });
@@ -71,7 +78,7 @@ public class WizardActivity extends Activity {
         }
         else
         {
-            alertMessage(rootDir);
+            WizardApp.getInstance().showPopupMessage("rootDir:" + rootDir);
         }
 
         try
@@ -86,20 +93,17 @@ public class WizardActivity extends Activity {
                 sb.append(new String(temp,0,len));
             }
             fis.close();
-            Log.d("ayy",sb.toString());
+            WizardApp.getInstance().showPopupMessage(sb.toString());
 
-            alertMessage(sb.toString());
         }
         catch(Exception ex)
         {
-            Log.d("ayy",ex.toString());
-            alertMessage(ex.toString());
+            WizardApp.getInstance().showPopupMessage(ex.toString());
         }
     }
 
-    protected void alertMessage(String msg)
+    protected void launchServer()
     {
-        Builder b = new AlertDialog.Builder(this);
-        b.setMessage(msg).setCancelable(true).show();
+        mServer = new ShaderServer();
     }
 }

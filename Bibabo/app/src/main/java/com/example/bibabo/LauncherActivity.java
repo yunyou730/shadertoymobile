@@ -20,10 +20,18 @@ public class LauncherActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.launcher);
 
-        if(checkAndRequestCameraPermission() && checkAndRequestStoragePermission())
+        WizardApp.createInstance();
+
+        if(checkAndRequestAllPermissions())
         {
             onAllPermissionsOK();
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
     }
 
     boolean checkCameraPermission()
@@ -35,6 +43,12 @@ public class LauncherActivity extends Activity {
     boolean checkStoragePermission()
     {
         int permissionState = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    boolean checkInternetPermission()
+    {
+        int permissionState = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -62,17 +76,34 @@ public class LauncherActivity extends Activity {
         return true;
     }
 
+    boolean checkAndRequestInternetPermission() {
+        if(!checkInternetPermission()) {
+            String[] permissions = {
+                Manifest.permission.INTERNET
+            };
+            ActivityCompat.requestPermissions(this,permissions,1);
+        }
+        return true;
+    }
+
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults)
     {
         if(!mIsAllPermissionsCheckOK)
         {
-            if(checkAndRequestCameraPermission() && checkAndRequestStoragePermission())
+            if(checkAndRequestAllPermissions())
             {
                 onAllPermissionsOK();
             }
         }
+    }
+
+    protected boolean checkAndRequestAllPermissions()
+    {
+        return checkAndRequestCameraPermission() &&
+                checkAndRequestStoragePermission() &&
+                checkAndRequestInternetPermission();
     }
 
     void onAllPermissionsOK()

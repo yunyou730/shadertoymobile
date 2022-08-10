@@ -1,7 +1,8 @@
 package com.example.bibabo;
 
-import android.opengl.GLES20;
 import android.opengl.GLES30;
+
+import com.example.bibabo.utils.ShaderUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
