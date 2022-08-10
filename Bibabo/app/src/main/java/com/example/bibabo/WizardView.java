@@ -9,27 +9,25 @@ public class WizardView
         extends GLSurfaceView
         implements SurfaceTexture.OnFrameAvailableListener {
 
-    private final WizardRenderer renderer;
+    private WizardRenderer mRenderer = null;
 
     public WizardView(Context context) {
         super(context);
-        setEGLContextClientVersion(3);
-        renderer = new WizardRenderer();
-        setRenderer(renderer);
-        renderer.setHolderView(this);
-
-        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-//        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        doInit();
     }
 
     public WizardView(Context context, AttributeSet set)
     {
         super(context,set);
+        doInit();
+    }
+
+    private void doInit(){
 
         setEGLContextClientVersion(3);
-        renderer = new WizardRenderer();
-        setRenderer(renderer);
-        renderer.setHolderView(this);
+        mRenderer = new WizardRenderer();
+        setRenderer(mRenderer);
+        mRenderer.setHolderView(this);
 
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
