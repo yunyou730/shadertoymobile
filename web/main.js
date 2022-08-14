@@ -6,12 +6,16 @@ window.onload = function() {
     // app.Test()
 
     let btnSubmit = document.getElementById("submit")
-    // console.log(btnSubmit)
+    let btnConn = document.getElementById("connect")
+    let txtIP = document.getElementById("mobile_ip")
+    let txtPort = document.getElementById("mobile_port")
 
-    btnSubmit.onclick = function(){
+    btnSubmit.onclick = function() {
         app.OnClickSubmit()
     }
 
-
+    btnConn.onclick = function() {
+        app.OnClickConnect(txtIP.value,txtPort.value)
+    }
 }
 
