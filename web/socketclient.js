@@ -58,7 +58,7 @@ class SocketClient
             2 - closing
             3 - closed or can not open
         */
-        return this._ws.readyState == 2;
+        return this._ws.readyState == 1;
     }
 
     SendText(text) {
@@ -66,15 +66,14 @@ class SocketClient
         {
             return;
         }
-
+        this._ws.send(text)
     }
 
-    SendBinary(bin) {
+    SendArrayBuffer(arraybuffer) {
         if(!this.IsConnecting())
         {
             return;
         }
-        
-        
+        this._ws.send(arraybuffer)
     }
 }
