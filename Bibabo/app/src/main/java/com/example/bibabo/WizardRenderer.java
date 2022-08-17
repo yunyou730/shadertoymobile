@@ -50,7 +50,7 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
         mTriangle.draw();
 
         mCamDrawer.getSurfaceTexture().updateTexImage();
-        mCamDrawer.draw();
+        mCamDrawer.draw(mCameraManager.getNeedRotDegree());
 
         WizardApp.getInstance().getEventDispatcher().SendToListeners();
         WizardApp.getInstance().getEventDispatcher().ClearAllEvents();

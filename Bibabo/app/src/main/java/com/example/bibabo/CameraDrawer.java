@@ -21,14 +21,6 @@ public class CameraDrawer {
 
     static float coords[] = {
             // pos & uv
-//            -0.5f,-0.5f,0.0f, 0.0f,0.0f,
-//             0.5f,-0.5f,0.0f, 1.0f,0.0f,
-//            -0.5f, 0.5f,0.0f, 0.0f,1.0f,
-//
-//             0.5f,-0.5f,0.0f, 1.0f,0.0f,
-//             0.5f, 0.5f,0.0f, 1.0f,1.0f,
-//            -0.5f, 0.5f,0.0f, 0.0f,1.0f,
-
             -1.0f,-1.0f,0.0f, 0.0f,0.0f,
              1.0f,-1.0f,0.0f, 1.0f,0.0f,
             -1.0f, 1.0f,0.0f, 0.0f,1.0f,
@@ -38,27 +30,8 @@ public class CameraDrawer {
             -1.0f, 1.0f,0.0f, 0.0f,1.0f,
     };
 
-
-    private final String vertexShaderCode =
-            "attribute vec4 vPosition;" +
-            "attribute vec2 aUV;" +
-            "varying vec2 vUV;" +
-            "void main() {" +
-            "   vUV = aUV;" +
-            "  gl_Position = vPosition;" +
-            "}";
-
-    private final String fragmentShaderCode =
-            "#extension GL_OES_EGL_image_external : require\n" + // declare OEM texture
-            "precision mediump float;" +
-            "varying vec2 vUV;" +
-            "uniform samplerExternalOES s_texture;" +
-            "void main() {" +
-            "   vec4 texColor = texture2D(s_texture,vUV);" +
-//            "   vec4 texColor = texture2D(s_texture,vec2(vUV.x,1.0-vUV.y));" +
-            "  gl_FragColor = texColor * vec4(vUV.x,vUV.y,0.0,1.0);" +
-//            "  gl_FragColor = texColor;" +
-            "}";
+    private String vertexShaderCode;
+    private String fragmentShaderCode;
 
     private int mProgram;
 
@@ -70,6 +43,8 @@ public class CameraDrawer {
 
     public CameraDrawer() {
         // Prepare shaders
+        vertexShaderCode = ShaderUtil.loadFromResourceFile(WizardApp.getInstance().getActivity().getResources(),R.raw.myvs);
+        fragmentShaderCode = ShaderUtil.loadFromResourceFile(WizardApp.getInstance().getActivity().getResources(),R.raw.myfs);
         mProgram = ShaderUtil.createProgram(vertexShaderCode,fragmentShaderCode);
 
         // Prepare mesh data
@@ -96,7 +71,7 @@ public class CameraDrawer {
     }
 
 
-    public void draw() {
+    public void draw(float camImageNeedRotDeg) {
 
         GLES30.glBindVertexArray(0); // unbind all VAOs, to use the default VAO
 
@@ -118,6 +93,13 @@ public class CameraDrawer {
         GLES30.glVertexAttribPointer(uvHandle, UV_PER_VERTEX,
                 GLES30.GL_FLOAT, false,
                 vertexStride, vertexBuffer);
+
+        // handle rotation
+        int rotUniformLoc = GLES30.glGetUniformLocation(mProgram,"u_RotDeg");
+        if(rotUniformLoc >= 0)
+        {
+            GLES30.glUniform1f(rotUniformLoc,(float)camImageNeedRotDeg);
+        }
 
         // Texture
         GLES30.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,mTextureID);

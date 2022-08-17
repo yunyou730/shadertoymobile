@@ -137,4 +137,23 @@ public class ShaderUtil {
         }
         return result;
     }
+
+
+    public static String loadFromResourceFile(Resources r,int fileRes) {
+        try {
+            InputStream fileStream = r.openRawResource(fileRes);
+            int fileLen = fileStream.available();
+// Read the entire resource into a local byte buffer.
+            byte[] fileBuffer = new byte[fileLen];
+
+            fileStream.read(fileBuffer);
+            fileStream.close();
+//            displayText = new String(fileBuffer);
+
+            return new String(fileBuffer);
+        } catch (IOException e) {
+            // exception handling
+            return "";
+        }
+    }
 }

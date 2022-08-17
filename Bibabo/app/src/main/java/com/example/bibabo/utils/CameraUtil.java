@@ -74,4 +74,9 @@ public class CameraUtil {
         }
         Log.d("ayy","mNeedRotDegree:" + mNeedRotDegree);
     }
+
+    public int getNeedRotDegree()
+    {
+        return mNeedRotDegree;
+    }
 }

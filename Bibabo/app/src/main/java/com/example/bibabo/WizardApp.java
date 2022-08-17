@@ -45,10 +45,10 @@ public class WizardApp {
     public void registerActivity(WizardActivity activity) {
         mWizardActivity = activity;
     }
-
     public void unregisterActivity(){
         mWizardActivity = null;
     }
+    public WizardActivity getActivity() { return mWizardActivity;}
 
     public void showPopupMessage(String message) {
         if(mWizardActivity != null)

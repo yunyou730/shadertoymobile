@@ -73,7 +73,6 @@ public class WizardView
             EventDispatcher.ShaderCodeChangeEvent evt = (EventDispatcher.ShaderCodeChangeEvent)event;
             Log.d("ayy",evt.mVertCode);
             Log.d("ayy",evt.mFragCode);
-
             try
             {
                 int newProgram = ShaderUtil.createProgram(evt.mVertCode,evt.mFragCode);
@@ -81,39 +80,35 @@ public class WizardView
             }
             catch(RuntimeException ex)
             {
-                // send compile error to client
-                JSONObject jobj = new JSONObject();
-                try {
-                    jobj.put("error",ex.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                WizardApp.getInstance().getServer().sendStr(jobj.toString());
-
-
-                // popup compile error
-                Context ctx = getContext();
-                if(ctx instanceof Activity)
-                {
-                    Activity activity = (Activity) ctx;
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            WizardApp.getInstance().showPopupMessage(ex.toString());
-                        }
-                    });
-                }
-
-//                getServer
-//                getContext().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                    }
-//                });
-//                EventDispatcher.ShaderCodeErrorEvent errorEvt = new EventDispatcher.ShaderCodeErrorEvent(ex.toString());
-//                WizardApp.getInstance().getEventDispatcher().DispatchEvent(EventDispatcher.EventType.ShaderCodeError,errorEvt);
+                sendShaderErrToClient(ex.toString());
+                showShaderErrLocal(ex.toString());
             }
+        }
+    }
+
+    protected void sendShaderErrToClient(String err)
+    {
+        JSONObject jobj = new JSONObject();
+        try {
+            jobj.put("error",err);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        WizardApp.getInstance().getServer().sendStr(jobj.toString());
+    }
+
+    protected void showShaderErrLocal(String err)
+    {
+        Context ctx = getContext();
+        if(ctx instanceof Activity)
+        {
+            Activity activity = (Activity) ctx;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    WizardApp.getInstance().showPopupMessage(err);
+                }
+            });
         }
     }
 }

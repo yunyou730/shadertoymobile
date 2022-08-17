@@ -1,7 +1,10 @@
-#version 300 es
+#extension GL_OES_EGL_image_external : require
 
 precision mediump float;
-out vec4 fragColor;
+varying vec2 vUV;
+uniform samplerExternalOES s_texture;
+
 void main() {
-    fragColor = vec4(1.0,0.0,0.5,1.0);
+    vec4 texColor = texture2D(s_texture,vUV);
+    gl_FragColor = texColor * vec4(vUV.x,vUV.y,0.0,1.0);
 }

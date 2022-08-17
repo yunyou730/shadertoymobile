@@ -50,7 +50,7 @@ window.onload = function() {
     btnImage.onclick = function() {
         g_app.OnClickSubmitImages()
     }
-
+    
     g_app.FillDefaultVS()
     g_app.FillDefaultFS()
     g_app.RefreshConnectStateLabel()
