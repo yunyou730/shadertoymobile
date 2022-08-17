@@ -2,6 +2,9 @@ package com.example.bibabo;
 
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -40,6 +43,7 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
         GLES30.glViewport(0,0,width,height);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
@@ -48,5 +52,11 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
 
         mCamDrawer.getSurfaceTexture().updateTexImage();
         mCamDrawer.draw();
+
+        WizardApp.getInstance().getEventDispatcher().SendToListeners();
+        WizardApp.getInstance().getEventDispatcher().ClearAllEvents();
     }
+
+
+
 }

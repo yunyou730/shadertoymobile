@@ -2,9 +2,14 @@ package com.example.bibabo.server;
 
 import android.util.Log;
 
+import com.example.bibabo.WizardApp;
+import com.example.bibabo.event.EventDispatcher;
+
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -31,9 +36,17 @@ public class WizardServer extends WebSocketServer {
     @Override
     public void onMessage(WebSocket conn, String message) {
         Log.d("ayy","WizardServer.onMessage:" + message);
-
-
-
+        try {
+            JSONObject jobj = new JSONObject(message);
+            String vertCode = jobj.getString("vs");
+            String fragCode = jobj.getString("fs");
+            EventDispatcher.ShaderCodeChangeEvent evt = new EventDispatcher.ShaderCodeChangeEvent(
+                    vertCode,fragCode
+            );
+            WizardApp.getInstance().getEventDispatcher().DispatchEvent(EventDispatcher.EventType.ReceiveShaderCode,evt);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

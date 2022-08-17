@@ -3,11 +3,20 @@ package com.example.bibabo;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.SurfaceHolder;
+
+import androidx.annotation.RequiresApi;
+
+import com.example.bibabo.event.EventDispatcher;
+import com.example.bibabo.event.EventListener;
 
 public class WizardView
         extends GLSurfaceView
-        implements SurfaceTexture.OnFrameAvailableListener {
+        implements SurfaceTexture.OnFrameAvailableListener,EventListener
+{
 
     private WizardRenderer mRenderer = null;
 
@@ -35,5 +44,30 @@ public class WizardView
     @Override
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
         requestRender();
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder)
+    {
+        super.surfaceCreated(holder);
+        WizardApp.getInstance().getEventDispatcher().RegisterEvent(EventDispatcher.EventType.ReceiveShaderCode,this);
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder)
+    {
+        super.surfaceDestroyed(holder);
+    }
+
+    @Override
+    public void onEvent(EventDispatcher.EventType eventType,EventDispatcher.WizardEvent event) {
+        if(eventType == EventDispatcher.EventType.ReceiveShaderCode)
+        {
+            // @miao @todo
+            // compile shader
+            EventDispatcher.ShaderCodeChangeEvent evt = (EventDispatcher.ShaderCodeChangeEvent)event;
+            Log.d("ayy",evt.mVertCode);
+            Log.d("ayy",evt.mFragCode);
+        }
     }
 }

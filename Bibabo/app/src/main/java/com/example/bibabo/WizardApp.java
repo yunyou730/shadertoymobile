@@ -7,6 +7,7 @@ import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
 import android.util.Log;
 
+import com.example.bibabo.event.EventDispatcher;
 import com.example.bibabo.server.WizardServer;
 
 import java.io.IOException;
@@ -17,17 +18,19 @@ public class WizardApp {
 
     protected WizardActivity mWizardActivity = null;
     protected WizardServer mServer = null;
+    protected EventDispatcher mEventDispatcher = null;
 
     protected final int mPort = 7324;
-
-    protected  WizardApp() {
-        super();
-    }
 
     public static WizardApp createInstance()
     {
         sInstance = new WizardApp();
         return sInstance;
+    }
+
+    protected  WizardApp() {
+        super();
+        mEventDispatcher = new EventDispatcher();
     }
 
     public static void cleanUp()
@@ -91,6 +94,17 @@ public class WizardApp {
     public int getPort()
     {
         return mPort;
+    }
+
+
+    public EventDispatcher getEventDispatcher()
+    {
+        return mEventDispatcher;
+    }
+
+    public void onUpdate()
+    {
+
     }
 
 }
