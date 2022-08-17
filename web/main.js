@@ -9,6 +9,7 @@ window.onload = function() {
 
     let btnSubmit = document.getElementById("submit")
     let btnConn = document.getElementById("connect")
+    let btnDisconn = document.getElementById("disconnect")
     let btnShaderCode = document.getElementById("submit_shader_code")
     let btnImage = document.getElementById("submit_images")
 
@@ -18,8 +19,12 @@ window.onload = function() {
     let txtVertShader = document.getElementById("vert_shader")
     let txtFragShader = document.getElementById("frag_shader")
 
+    let txtConnectStatus = document.getElementById("connect_status")
+    let txtRemoteMsg = document.getElementById("remote_messsage")
+    
     g_app = new Application("ShadertoyMobile Editor")
-    g_app.RegisterWidgets(txtVertShader,txtFragShader)
+    g_app.RegisterWidgets(txtVertShader,txtFragShader,txtConnectStatus,txtRemoteMsg)
+    
 
     if(g_debug) {
         txtIP.value     = g_debug_ip
@@ -34,6 +39,9 @@ window.onload = function() {
         g_app.OnClickConnect(txtIP.value,txtPort.value)
     }
 
+    btnDisconn.onclick = function() {
+        g_app.OnClickDisconnect()
+    }
 
     btnShaderCode.onclick = function() {
         g_app.OnClickSubmitShaderCode()
@@ -45,6 +53,7 @@ window.onload = function() {
 
     g_app.FillDefaultVS()
     g_app.FillDefaultFS()
+    g_app.RefreshConnectStateLabel()
 }
 
 window.addEventListener("load",function() {

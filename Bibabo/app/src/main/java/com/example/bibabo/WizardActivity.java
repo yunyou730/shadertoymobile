@@ -11,19 +11,24 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.example.bibabo.event.EventDispatcher;
+import com.example.bibabo.event.EventListener;
 import com.example.bibabo.server.WizardServer;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 
-public class WizardActivity extends Activity {
+public class WizardActivity extends Activity implements EventListener {
     WizardView mView = null;
+
+    ArrayList<String> mShaderError = new ArrayList<String>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WizardApp.getInstance().registerActivity(this);
-
+        WizardApp.getInstance().getEventDispatcher().RegisterEvent(EventDispatcher.EventType.ShaderCodeError,this);
 
         launchServer();
 //        showStoragePathInfo();
@@ -101,5 +106,14 @@ public class WizardActivity extends Activity {
         TextView text = findViewById(R.id.textView);
         text.setTextColor(0xFFFF00FF);
         text.setText("ws://" + ip + ":" + WizardApp.getInstance().getPort());
+    }
+
+    @Override
+    public void onEvent(EventDispatcher.EventType eventType, EventDispatcher.WizardEvent event) {
+        if(eventType == EventDispatcher.EventType.ShaderCodeError)
+        {
+            EventDispatcher.ShaderCodeErrorEvent evt = (EventDispatcher.ShaderCodeErrorEvent)event;
+            WizardApp.getInstance().showPopupMessage(evt.mError);
+        }
     }
 }

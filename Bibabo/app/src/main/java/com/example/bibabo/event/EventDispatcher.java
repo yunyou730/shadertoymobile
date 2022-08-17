@@ -15,6 +15,7 @@ public class EventDispatcher {
     public enum EventType
     {
         ReceiveShaderCode,
+        ShaderCodeError,
     }
 
     HashMap<EventType,ArrayList<WizardEvent>> mEventMap = new HashMap<EventType, ArrayList<WizardEvent>>();
@@ -110,6 +111,16 @@ public class EventDispatcher {
             super();
             mVertCode = vertCode;
             mFragCode = fragCode;
+        }
+    }
+
+    public static class ShaderCodeErrorEvent extends WizardEvent
+    {
+        public String mError;
+
+        public ShaderCodeErrorEvent(String error)
+        {
+            mError = error;
         }
     }
 }

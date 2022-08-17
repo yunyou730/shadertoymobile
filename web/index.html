@@ -15,11 +15,11 @@
         <input type = "text" id = "mobile_ip"/>
         <input type = "text" id = "mobile_port"/>
         <button id = "connect">connect mobile</button>
+        <button id = "disconnect">disconnect</button>        
         </div>
 
-
         <div>
-            <p id = "connect_status_label">connect_status</p>
+            <!-- <p id = "connect_status_label">connect_status</p> -->
             <p id = "connect_status">disconnected</p>
         </div>
 
@@ -44,7 +44,12 @@
 
 
         <div>
-            <textarea id = "remote_messsage">Remote message</textarea>
+            <p id = "console">Remote message</p>
+            <textarea id = "remote_messsage" 
+                rows = "5" cols = "100" 
+                readonly
+                >Remote message
+            </textarea>
         </div>
 
     </body>

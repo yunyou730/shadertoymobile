@@ -16,20 +16,25 @@ class SocketClient
         
             this._ws.onopen = function() {
                 console.log("onopen")
+                g_app.RefreshConnectStateLabel()
             }
     
             this._ws.onmessage = function(e) {
                 console.log(e.data)
+                g_app.OnRemoteMessage(e.data)
             }
     
             this._ws.onclose = function(e) {
                 console.log("close");
                 this._ws = null;
+                g_app.RefreshConnectStateLabel()                
             }
     
             this._ws.onerror = function(e) {
                 console.log(e)
+                g_app.RefreshConnectStateLabel()
             }
+
         } catch (error) {
             console.log("Create WS error:" + error)
             this._ws = null;

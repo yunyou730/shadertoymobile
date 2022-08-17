@@ -1,5 +1,6 @@
 package com.example.bibabo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
@@ -14,6 +15,9 @@ import androidx.annotation.RequiresApi;
 import com.example.bibabo.event.EventDispatcher;
 import com.example.bibabo.event.EventListener;
 import com.example.bibabo.utils.ShaderUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class WizardView
         extends GLSurfaceView
@@ -65,15 +69,51 @@ public class WizardView
     public void onEvent(EventDispatcher.EventType eventType,EventDispatcher.WizardEvent event) {
         if(eventType == EventDispatcher.EventType.ReceiveShaderCode)
         {
-            // @miao @todo
             // compile shader
             EventDispatcher.ShaderCodeChangeEvent evt = (EventDispatcher.ShaderCodeChangeEvent)event;
             Log.d("ayy",evt.mVertCode);
             Log.d("ayy",evt.mFragCode);
 
-            int newProgram = ShaderUtil.createProgram(evt.mVertCode,evt.mFragCode);
-            mRenderer.ChangeCameraDrawerShaderProgram(newProgram);
-        }
+            try
+            {
+                int newProgram = ShaderUtil.createProgram(evt.mVertCode,evt.mFragCode);
+                mRenderer.ChangeCameraDrawerShaderProgram(newProgram);
+            }
+            catch(RuntimeException ex)
+            {
+                // send compile error to client
+                JSONObject jobj = new JSONObject();
+                try {
+                    jobj.put("error",ex.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                WizardApp.getInstance().getServer().sendStr(jobj.toString());
 
+
+                // popup compile error
+                Context ctx = getContext();
+                if(ctx instanceof Activity)
+                {
+                    Activity activity = (Activity) ctx;
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            WizardApp.getInstance().showPopupMessage(ex.toString());
+                        }
+                    });
+                }
+
+//                getServer
+//                getContext().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                    }
+//                });
+//                EventDispatcher.ShaderCodeErrorEvent errorEvt = new EventDispatcher.ShaderCodeErrorEvent(ex.toString());
+//                WizardApp.getInstance().getEventDispatcher().DispatchEvent(EventDispatcher.EventType.ShaderCodeError,errorEvt);
+            }
+        }
     }
 }

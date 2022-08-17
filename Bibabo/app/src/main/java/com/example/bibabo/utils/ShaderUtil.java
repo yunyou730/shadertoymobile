@@ -8,16 +8,19 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 
 //加载顶点Shader与片元Shader的工具类
 public class ShaderUtil {
     //加载制定shader的方法
-    public static int loadShader(
-            int shaderType, //shader的类型  GLES30.GL_VERTEX_SHADER   GLES30.GL_FRAGMENT_SHADER
-            String source   //shader的脚本字符串
-    ) {
+    /*
+    * shader的类型  GLES30.GL_VERTEX_SHADER   GLES30.GL_FRAGMENT_SHADER
+    * shader的脚本字符串
+    * */
+    public static int loadShader(int shaderType, String source) {
         //创建一个新shader
         int shader = GLES30.glCreateShader(shaderType);
         //若创建成功则加载shader
@@ -31,11 +34,30 @@ public class ShaderUtil {
             //获取Shader的编译情况
             GLES30.glGetShaderiv(shader, GLES30.GL_COMPILE_STATUS, compiled, 0);
             if (compiled[0] == 0) {//若编译失败则显示错误日志并删除此shader
+                ;
+                String shaderError = GLES30.glGetShaderInfoLog(shader);
                 Log.e("ES30_ERROR", "Could not compile shader " + shaderType + ":");
-                Log.e("ES30_ERROR", GLES30.glGetShaderInfoLog(shader));
+                Log.e("ES30_ERROR", shaderError);
+
                 GLES30.glDeleteShader(shader);
-                shader = 0;
+
+                String shaderTypeTag = "[shadertype]";
+                if(shaderType == GLES30.GL_VERTEX_SHADER)
+                {
+                    shaderTypeTag = "[vs]";
+                }
+                else if(shaderType == GLES30.GL_FRAGMENT_SHADER)
+                {
+                    shaderTypeTag = "[fs]";
+                }
+
+                throw new RuntimeException(shaderTypeTag + shaderError);
+//                shader = 0;
             }
+        }
+        else
+        {
+            throw new RuntimeException("glCreateShader error");
         }
         return shader;
     }
@@ -51,6 +73,8 @@ public class ShaderUtil {
         //加载片元着色器
         int pixelShader = loadShader(GLES30.GL_FRAGMENT_SHADER, fragmentSource);
         if (pixelShader == 0) {
+            String errorInfo = GLES30.glGetShaderInfoLog(pixelShader);
+//            throw new RuntimeException("fs err:" + errorInfo);
             return 0;
         }
 
@@ -73,9 +97,11 @@ public class ShaderUtil {
             //若链接失败则报错并删除程序
             if (linkStatus[0] != GLES30.GL_TRUE) {
                 Log.e("ES30_ERROR", "Could not link program: ");
-                Log.e("ES30_ERROR", GLES30.glGetProgramInfoLog(program));
+//                Log.e("ES30_ERROR", );
                 GLES30.glDeleteProgram(program);
-                program = 0;
+                throw new RuntimeException("link err:" + GLES30.glGetProgramInfoLog(program));
+
+//                program = 0;
             }
         }
         return program;

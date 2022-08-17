@@ -8,6 +8,8 @@ class Application {
 
         this._vertInput = null
         this._fragInput = null
+        this._connectLabel = null
+        this._remoteMsgLabel = null
         // this._fileReader = new FileReader()
 
 
@@ -44,6 +46,15 @@ class Application {
         this._client.Connect()
     }
 
+    OnClickDisconnect()
+    {
+        if(this._client != null)
+        {
+            this._client.Disconnect()
+            this._client = null
+        }
+    }
+    
     OnClickSubmit()
     {
         console.log("OnClickSubmit")
@@ -99,14 +110,35 @@ class Application {
         this._extImages[pos] = file
     }
 
-    RegisterWidgets(vertInput,fragInput) {
+    RegisterWidgets(vertInput,fragInput,connectLabel,remoteLabel) {
         this._vertInput = vertInput
         this._fragInput = fragInput
+        this._connectLabel = connectLabel
+        this._remoteMsgLabel = remoteLabel
     }
 
     getShaderCode()
     {
 
         return "";
+    }
+
+    RefreshConnectStateLabel()
+    {
+        var bConnecting = false
+        if(this._client != null && this._client.IsConnecting())
+        {
+            bConnecting = true
+        }
+
+        var connectStr = bConnecting ? "Connected" : "Disconnected"
+        this._connectLabel.innerHTML = connectStr
+        this._connectLabel.style.backgroundColor = bConnecting ? "#00ff00" : "#ff0000"
+    }
+
+    OnRemoteMessage(msgObject)
+    {
+        console.log(msgObject)
+        this._remoteMsgLabel.innerHTML = msgObject
     }
 }

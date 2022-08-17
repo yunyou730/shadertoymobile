@@ -80,6 +80,10 @@ public class WizardApp {
         }
     }
 
+    public WizardServer getServer() {
+        return mServer;
+    }
+
     public String getLocalIPAddress (Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();

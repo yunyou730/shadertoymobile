@@ -82,4 +82,9 @@ public class WizardServer extends WebSocketServer {
         }
     }
 
+    public void sendStr(String content)
+    {
+        this.broadcast(content);
+    }
+
 }
