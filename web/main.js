@@ -1,19 +1,25 @@
 
 let g_debug = true
 var g_app = null
-let g_debug_ip = "192.168.1.6"
+let g_debug_ip = "10.78.52.88"
 let g_debug_port = "7324"
 
 window.onload = function() {
     console.log("window.onload")
 
-
-    g_app = new Application("ShadertoyMobile Editor")
-
     let btnSubmit = document.getElementById("submit")
     let btnConn = document.getElementById("connect")
+    let btnShaderCode = document.getElementById("submit_shader_code")
+    let btnImage = document.getElementById("submit_images")
+
     let txtIP = document.getElementById("mobile_ip")
     let txtPort = document.getElementById("mobile_port")
+
+    let txtVertShader = document.getElementById("vert_shader")
+    let txtFragShader = document.getElementById("frag_shader")
+
+    g_app = new Application("ShadertoyMobile Editor")
+    g_app.RegisterWidgets(txtVertShader,txtFragShader)
 
     if(g_debug) {
         txtIP.value     = g_debug_ip
@@ -27,6 +33,18 @@ window.onload = function() {
     btnConn.onclick = function() {
         g_app.OnClickConnect(txtIP.value,txtPort.value)
     }
+
+
+    btnShaderCode.onclick = function() {
+        g_app.OnClickSubmitShaderCode()
+    }
+
+    btnImage.onclick = function() {
+        g_app.OnClickSubmitImages()
+    }
+
+    g_app.FillDefaultVS()
+    g_app.FillDefaultFS()
 }
 
 window.addEventListener("load",function() {

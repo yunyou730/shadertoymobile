@@ -72,8 +72,6 @@ public class CameraDrawer {
         // Prepare shaders
         mProgram = ShaderUtil.createProgram(vertexShaderCode,fragmentShaderCode);
 
-
-
         // Prepare mesh data
         ByteBuffer bb = ByteBuffer.allocateDirect(coords.length * 4); // 4 bytes per float
         bb.order(ByteOrder.nativeOrder());
@@ -120,7 +118,6 @@ public class CameraDrawer {
         GLES30.glVertexAttribPointer(uvHandle, UV_PER_VERTEX,
                 GLES30.GL_FLOAT, false,
                 vertexStride, vertexBuffer);
-
 
         // Texture
         GLES30.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,mTextureID);

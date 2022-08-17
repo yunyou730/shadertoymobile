@@ -31,11 +31,17 @@ public class WizardServer extends WebSocketServer {
     @Override
     public void onMessage(WebSocket conn, String message) {
         Log.d("ayy","WizardServer.onMessage:" + message);
+
+
+
     }
 
     @Override
     public void onMessage( WebSocket conn, ByteBuffer message ) {
         Log.d("ayy","bytebuffer msg:" + byteBufferToString(message));
+
+
+
     }
 
     @Override

@@ -17,13 +17,18 @@ import java.util.List;
 public class CameraUtil {
     private Camera camera = null;
 
+    private int mCameraId = 0;
+    private int mNeedRotDegree = 0;
+
     public void openCamera()
     {
-        camera = Camera.open();
+        camera = Camera.open(mCameraId);
         Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         camera.setParameters(parameters);
         camera.startPreview();
+
+        initNeedRotDegree();
     }
 
     public void stopCamera()
@@ -51,5 +56,22 @@ public class CameraUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void initNeedRotDegree() {
+        mNeedRotDegree = 0;
+
+        Camera.CameraInfo info = new Camera.CameraInfo();
+//        Camera.
+        Camera.getCameraInfo(mCameraId,info);
+        if(info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT)
+        {
+            mNeedRotDegree = (info.orientation) % 360;
+        }
+        else if(info.facing == Camera.CameraInfo.CAMERA_FACING_BACK)
+        {
+            mNeedRotDegree = (info.orientation + 360) % 360;
+        }
+        Log.d("ayy","mNeedRotDegree:" + mNeedRotDegree);
     }
 }

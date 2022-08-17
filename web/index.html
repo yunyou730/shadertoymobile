@@ -24,13 +24,22 @@
         </div>
 
         <div>
-            <textarea id = "shader_code">Fragment Code</textarea>
+            <textarea id = "vert_shader" rows = "25" cols = "50">
+                Vertex Code
+            </textarea>
+            <!-- <button id = "fill_default_vs">default vs</button> -->
+            <textarea id = "frag_shader" rows = "25" cols = "60">
+                Fragment Code
+            </textarea>
+            <!-- <button id = "fill_default_fs">default fs</button>             -->
             <br/>
             <input type="file" id = "img_1"/>
             <input type="file" id = "img_2"/>
             <input type="file" id = "img_3"/>        
             <br/>                
-            <button id = "submit">submit shader</button>
+            <button id = "submit">run!</button>
+            <button id = "submit_shader_code">submit shader code</button>
+            <button id = "submit_images">submit images</button>            
         </div>
 
 
