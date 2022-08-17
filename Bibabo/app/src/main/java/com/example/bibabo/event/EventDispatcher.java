@@ -33,7 +33,6 @@ public class EventDispatcher {
         mEventMap.get(type).add(event);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void SendToListeners()
     {
         for(EventType eventKey : mEventMap.keySet())
@@ -63,17 +62,14 @@ public class EventDispatcher {
                 }
             }
         }
-//        mEventMap.forEach((eventKey,events)->{
-//
-//        });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void ClearAllEvents()
     {
-        mEventMap.forEach((key,value) ->{
-            value.clear();
-        });
+        for(ArrayList<WizardEvent> events : mEventMap.values())
+        {
+            events.clear();
+        }
     }
 
     public void RegisterEvent(EventType eventType,EventListener listener)

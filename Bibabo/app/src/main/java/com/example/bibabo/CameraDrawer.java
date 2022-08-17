@@ -60,7 +60,7 @@ public class CameraDrawer {
 //            "  gl_FragColor = texColor;" +
             "}";
 
-    private final int mProgram;
+    private int mProgram;
 
     private final int vertexCount = coords.length / ATTR_PER_VERTEX;
     private final int vertexStride = ATTR_PER_VERTEX * 4; // 4 bytes per vertex
@@ -132,6 +132,12 @@ public class CameraDrawer {
 
     SurfaceTexture getSurfaceTexture() {
         return mCameraSurfaceTexture;
+    }
+
+    public void replaceShaderProgram(int newProgram)
+    {
+        GLES30.glDeleteProgram(mProgram);
+        mProgram = newProgram;
     }
 
 }

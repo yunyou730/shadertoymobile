@@ -43,7 +43,6 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
         GLES30.glViewport(0,0,width,height);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
@@ -57,6 +56,11 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
         WizardApp.getInstance().getEventDispatcher().ClearAllEvents();
     }
 
+
+    public void ChangeCameraDrawerShaderProgram(int program)
+    {
+        mCamDrawer.replaceShaderProgram(program);
+    }
 
 
 }

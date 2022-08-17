@@ -3,6 +3,7 @@ package com.example.bibabo;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
+import android.opengl.GLUtils;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,6 +13,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.bibabo.event.EventDispatcher;
 import com.example.bibabo.event.EventListener;
+import com.example.bibabo.utils.ShaderUtil;
 
 public class WizardView
         extends GLSurfaceView
@@ -68,6 +70,10 @@ public class WizardView
             EventDispatcher.ShaderCodeChangeEvent evt = (EventDispatcher.ShaderCodeChangeEvent)event;
             Log.d("ayy",evt.mVertCode);
             Log.d("ayy",evt.mFragCode);
+
+            int newProgram = ShaderUtil.createProgram(evt.mVertCode,evt.mFragCode);
+            mRenderer.ChangeCameraDrawerShaderProgram(newProgram);
         }
+
     }
 }
