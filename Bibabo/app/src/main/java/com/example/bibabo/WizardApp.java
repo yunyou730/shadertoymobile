@@ -101,10 +101,4 @@ public class WizardApp {
     {
         return mEventDispatcher;
     }
-
-    public void onUpdate()
-    {
-
-    }
-
 }

@@ -26,7 +26,7 @@ public class WizardActivity extends Activity {
 
 
         launchServer();
-        showStoragePathInfo();
+//        showStoragePathInfo();
         showWizardView();
 
         refreshUI();
@@ -49,7 +49,7 @@ public class WizardActivity extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP)
                 {
-                    showStoragePathInfo();
+//                    showStoragePathInfo();
                 }
                 return true;
             }

@@ -21,6 +21,7 @@ public class WizardServer extends WebSocketServer {
 
     public WizardServer(InetSocketAddress host) {
         super(host);
+        setReuseAddr(true);
     }
 
     @Override
@@ -57,6 +58,7 @@ public class WizardServer extends WebSocketServer {
     @Override
     public void onError(WebSocket conn, Exception ex) {
         Log.d("ayy","WizardServer.onError:" + ex.toString());
+        WizardApp.getInstance().showPopupMessage(ex.toString());
     }
 
     @Override
