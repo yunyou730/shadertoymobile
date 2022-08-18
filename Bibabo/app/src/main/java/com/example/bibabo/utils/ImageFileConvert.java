@@ -10,5 +10,5 @@ public class ImageFileConvert {
     }
 
 //    public native static void convertImageFileDataToRGBAA();
-    public native String stringFromJNI(ByteBuffer buffer);
+    public native ImageRawData stringFromJNI(byte[] buffer);
 }

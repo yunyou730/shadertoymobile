@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.bibabo.WizardApp;
 import com.example.bibabo.event.EventDispatcher;
 import com.example.bibabo.utils.ImageFileConvert;
+import com.example.bibabo.utils.ImageRawData;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -56,7 +57,9 @@ public class WizardServer extends WebSocketServer {
 //        Log.d("ayy","bytebuffer msg:" + byteBufferToString(message));
 
         message.position(0);
-        new ImageFileConvert().stringFromJNI(message);
+        byte[] data = message.array();
+        ImageRawData rawData = new ImageFileConvert().stringFromJNI(data);
+        Log.d("ayy","123");
     }
 
     @Override
