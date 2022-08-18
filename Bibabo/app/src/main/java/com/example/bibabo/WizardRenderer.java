@@ -3,6 +3,7 @@ package com.example.bibabo;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -11,6 +12,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.example.bibabo.utils.CameraUtil;
 
+import java.util.Date;
+
 public class WizardRenderer implements GLSurfaceView.Renderer {
 
     private CameraUtil mCameraManager = new CameraUtil();
@@ -18,6 +21,8 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
     private Triangle mTriangle;
     private Rectangle mRect;
     private CameraDrawer mCamDrawer;
+
+    private Date mBeginTime;
 
     WizardView mHolderView = null;
     void setHolderView(WizardView holderView)
@@ -36,6 +41,8 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
         mCameraManager.openCamera();
         mCamDrawer.getSurfaceTexture().setOnFrameAvailableListener(mHolderView);
         mCameraManager.setPreviewTexture(mCamDrawer.getSurfaceTexture());
+
+        mBeginTime = new Date();
     }
 
     @Override
@@ -45,20 +52,26 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        Date now = new Date();
+//        now - mBeginTime;
+        long ellapsedMS = (now.getTime() - mBeginTime.getTime());
+        float ellapsedSecs = ellapsedMS / 1000.f;
+//        Log.d("ayy", String.valueOf(ellapsedSecs));
+
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
         mRect.draw();
         mTriangle.draw();
 
         mCamDrawer.getSurfaceTexture().updateTexImage();
-        mCamDrawer.draw(mCameraManager.getNeedRotDegree());
+        mCamDrawer.draw(mCameraManager.getNeedRotDegree(),ellapsedSecs);
 
         WizardApp.getInstance().getEventDispatcher().SendToListeners();
         WizardApp.getInstance().getEventDispatcher().ClearAllEvents();
     }
 
-
     public void ChangeCameraDrawerShaderProgram(int program)
     {
+        mBeginTime = new Date();
         mCamDrawer.replaceShaderProgram(program);
     }
 

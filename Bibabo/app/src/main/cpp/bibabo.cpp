@@ -6,7 +6,7 @@
 
 extern "C"
 JNIEXPORT jobject JNICALL
-Java_com_example_bibabo_utils_ImageFileConvert_stringFromJNI(
+Java_com_example_bibabo_utils_ImageFileConvert_getImageRawData(
         JNIEnv* env,
         jobject obj /* this */,
         jbyteArray fileBuffer)

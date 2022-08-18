@@ -9,6 +9,5 @@ public class ImageFileConvert {
         System.loadLibrary("bibabo");
     }
 
-//    public native static void convertImageFileDataToRGBAA();
-    public native ImageRawData stringFromJNI(byte[] buffer);
+    public native ImageRawData getImageRawData(byte[] buffer);
 }

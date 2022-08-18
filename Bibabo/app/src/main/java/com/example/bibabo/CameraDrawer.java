@@ -71,7 +71,7 @@ public class CameraDrawer {
     }
 
 
-    public void draw(float camImageNeedRotDeg) {
+    public void draw(float camImageNeedRotDeg,float elappsedSecs) {
 
         GLES30.glBindVertexArray(0); // unbind all VAOs, to use the default VAO
 
@@ -99,6 +99,12 @@ public class CameraDrawer {
         if(rotUniformLoc >= 0)
         {
             GLES30.glUniform1f(rotUniformLoc,(float)camImageNeedRotDeg);
+        }
+
+        int timeUniformLoc = GLES30.glGetUniformLocation(mProgram,"u_Time");
+        if(timeUniformLoc >= 0)
+        {
+            GLES30.glUniform1f(timeUniformLoc,elappsedSecs);
         }
 
         // Texture

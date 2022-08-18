@@ -58,7 +58,7 @@ public class WizardServer extends WebSocketServer {
 
         message.position(0);
         byte[] data = message.array();
-        ImageRawData rawData = new ImageFileConvert().stringFromJNI(data);
+        ImageRawData rawData = new ImageFileConvert().getImageRawData(data);
         Log.d("ayy","123");
     }
 
