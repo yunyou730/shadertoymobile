@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.bibabo.utils.ImageFileConvert;
+
 public class LauncherActivity extends Activity {
 
     boolean mIsAllPermissionsCheckOK = false;
@@ -21,7 +23,6 @@ public class LauncherActivity extends Activity {
         setContentView(R.layout.launcher);
 
         WizardApp.createInstance();
-
         if(checkAndRequestAllPermissions())
         {
             onAllPermissionsOK();

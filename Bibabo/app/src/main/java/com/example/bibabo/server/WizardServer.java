@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.bibabo.WizardApp;
 import com.example.bibabo.event.EventDispatcher;
+import com.example.bibabo.utils.ImageFileConvert;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -52,7 +53,10 @@ public class WizardServer extends WebSocketServer {
 
     @Override
     public void onMessage( WebSocket conn, ByteBuffer message ) {
-        Log.d("ayy","bytebuffer msg:" + byteBufferToString(message));
+//        Log.d("ayy","bytebuffer msg:" + byteBufferToString(message));
+
+        message.position(0);
+        new ImageFileConvert().stringFromJNI(message);
     }
 
     @Override

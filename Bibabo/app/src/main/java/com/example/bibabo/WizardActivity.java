@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.example.bibabo.event.EventDispatcher;
 import com.example.bibabo.event.EventListener;
 import com.example.bibabo.server.WizardServer;
+import com.example.bibabo.utils.ImageFileConvert;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,7 +55,8 @@ public class WizardActivity extends Activity implements EventListener {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP)
                 {
-//                    showStoragePathInfo();
+//                    String s = new ImageFileConvert().stringFromJNI();
+//                    Log.d("ayy","[stringformcpp]" + s);
                 }
                 return true;
             }
