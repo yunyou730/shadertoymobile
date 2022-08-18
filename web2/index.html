@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>shadertoy mobile editor</title>
+        <script  type="text/javascript" src="main.js"></script>
+        <script  type="text/javascript" src="application.js"></script>
+        <script  type="text/javascript" src="socketclient.js"></script>
+
+        <link rel="stylesheet" href="./layui/css/layui.css">
+        <script src="./layui/layui.js"></script>
+    </head>
+    <body>
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px; margin-left: 30px;"><legend>shadertoy mobile editor</legend></fieldset>  
+          <div class="layui-carousel" id="test1" lay-filter="test1" style="margin-left: 350px;">
+            <div carousel-item="">
+                <div><img src="./static/images/hackathon1.png"></div>
+                <div><img src="./static/images/hackathon2.jpeg"></div>
+                <div><img src="./static/images/hackathon3.jpeg"></div>
+            </div>
+        </div> 
+        <form class="layui-form" action="" style="margin-left: 0px;">
+            <div>
+              <label class="layui-form-label">链接状态</label>
+              <i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: #22ff1e;" id=connect_status_t></i>
+              <i class="layui-icon layui-icon-logout" style="font-size: 30px; color: #ff1e1e;" id=connect_status_f ></i>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">ip</label>
+              <div class="layui-input-inline">
+                <input type="text" name="title" required  lay-verify="required" placeholder="请输入ip" autocomplete="off" class="layui-input" id="mobile_ip">
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+              <label class="layui-form-label">端口框</label>
+              <div class="layui-input-inline">
+                <input name="password" required lay-verify="required" placeholder="请输入端口" autocomplete="off" class="layui-input" id="mobile_port">
+              </div>
+              <button type="button" class="layui-btn" id="connect">链接</button>
+            </div>
+
+
+            
+            <div class="layui-inline" style="margin-left: 110px;">
+             
+                <textarea id="vert_shader" required lay-verify="required" placeholder="Input Your Vert Shader" class="layui-textarea" style="width: 500px; height: 500px;">
+attribute vec4 vPosition;
+attribute vec2 aUV;
+varying vec2 vUV;
+void main() {
+  vUV = aUV;
+  gl_Position = vPosition;
+}
+                  </textarea>
+                
+
+            </div>
+            <div class="layui-inline">
+              <textarea id="frag_shader"required lay-verify="required" placeholder="Input Your Frag Shader" class="layui-textarea" style="width: 500px; height: 500px;">
+#extension GL_OES_EGL_image_external : require
+precision mediump float;
+varying vec2 vUV;
+uniform samplerExternalOES s_texture;
+
+#define _EdgeWidth 3.3
+#define _BackgroundFade 0.0
+#define _BackgroundColor vec4(0.43, 0.1, 0.45, 0.0)
+#define _Brightness 1.3
+
+float intensity(in vec4 color)
+{
+	return sqrt((color.x * color.x) + (color.y * color.y) + (color.z * color.z));
+}
+
+float sobel(float stepx, float stepy, vec2 center)
+{
+	// get samples around pixel
+	float topLeft = intensity(texture2D(s_texture, center + vec2(-stepx, stepy)));
+	float bottomLeft = intensity(texture2D(s_texture, center + vec2(-stepx, -stepy)));
+	float topRight = intensity(texture2D(s_texture, center + vec2(stepx, stepy)));
+	float bottomRight = intensity(texture2D(s_texture, center + vec2(stepx, -stepy)));
+
+	float Gx = -1.0 * topLeft + 1.0 * bottomRight;
+	float Gy = -1.0 * topRight + 1.0 * bottomLeft;
+
+	float sobelGradient = sqrt((Gx * Gx) + (Gy * Gy));
+	return sobelGradient;
+}
+void main() {
+   // Normalized pixel coordinates (from 0 to 1)
+    vec2 uv = vec2(1.0-vUV.y,1.0 - vUV.x);
+    vec4 sceneColor = texture2D(s_texture, uv);
+
+    float sobelGradient = sobel(_EdgeWidth / 2736.0, _EdgeWidth / 3648.0, uv);
+
+    vec4 backgroundColor = mix(sceneColor, _BackgroundColor, _BackgroundFade);
+
+    // varying pixel color
+    float ColFactor = 3.0;
+    vec3 col = 0.5 + 0.5*cos(ColFactor + uv.xyx + vec3(0,2,4));
+    vec3 edgeColor = mix(backgroundColor.rgb, col, sobelGradient);
+
+    // Output to screen
+    gl_FragColor = vec4(edgeColor * _Brightness,1.0);
+
+}
+              </textarea>  
+            </div>
+            
+            <textarea id="remote_messsage" placeholder="等待运行结果ing" class="layui-textarea" style="width: 500px; height: 200px; margin-left: 110px;"></textarea>  
+            
+
+
+            
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo" id="submit_shader_code">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-left: 70px;">
+                <legend>选择素材传递给移动端</legend>
+            </fieldset> 
+               
+              <div class="layui-upload"  style="margin-left: 100px;">
+                <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button> 
+                <div class="layui-upload-list" style="max-width: 1000px;">
+                  <table class="layui-table">
+                    <colgroup>
+                      <col>
+                      <col width="150">
+                      <col width="260">
+                      <col width="150">
+                    </colgroup>
+                    <thead>
+                      <tr><th>文件名</th>
+                      <th>大小</th>
+                      <th>上传进度</th>
+                      <th>操作</th>
+                    </tr></thead>
+                    <tbody id="demoList"></tbody>
+                  </table>
+                </div>
+                <button type="button" class="layui-btn" id="submit">开始上传</button>
+              </div> 
+        </form>
+        <script>
+
+          var g_test = null;
+        //Demo
+        layui.use('form', function(){
+        var form = layui.form;
+        
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+        var carousel = layui.carousel
+          ,form = layui.form;
+          //常规轮播
+          carousel.render({
+            elem: '#test1'
+            ,arrow: 'always'
+          });
+
+          layui.code();
+        
+          //富文本编辑器
+          var layedit = layui.layedit;
+
+          //滑块
+          slider = layui.slider;
+          slider.render({
+          elem: '#slideTest2'
+          ,value: 20 //初始值
+        });
+
+        //隐藏
+        //var smile = document.getElementById("connect_status_t").style.display = "none"
+        });
+        
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+        <script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+    </body>
+</html>
