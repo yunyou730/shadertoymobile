@@ -4,6 +4,7 @@ import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES30;
 
+import com.example.bibabo.utils.ImageRawData;
 import com.example.bibabo.utils.OpenGLUtils;
 import com.example.bibabo.utils.ShaderUtil;
 
@@ -40,6 +41,8 @@ public class CameraDrawer {
 
     private SurfaceTexture mCameraSurfaceTexture = null;
     private int mTextureID = 0;
+
+    private int mExternalTexture = 0;
 
     public CameraDrawer() {
         // Prepare shaders
@@ -126,6 +129,21 @@ public class CameraDrawer {
     {
         GLES30.glDeleteProgram(mProgram);
         mProgram = newProgram;
+    }
+
+    public void createExternalTexture(ImageRawData rawData)
+    {
+        int[] textures = OpenGLUtils.createTextures(
+                GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
+                1,
+                GLES30.GL_NEAREST,
+                GLES30.GL_LINEAR,
+                GLES30.GL_CLAMP_TO_EDGE,
+                GLES30.GL_CLAMP_TO_EDGE
+        );
+        mExternalTexture = textures[0];
+        // @miao @todo
+        
     }
 
 }

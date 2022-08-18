@@ -16,6 +16,7 @@ public class EventDispatcher {
     {
         ReceiveShaderCode,
         ShaderCodeError,
+        ReceiveTextureFile,
     }
 
     HashMap<EventType,ArrayList<WizardEvent>> mEventMap = new HashMap<EventType, ArrayList<WizardEvent>>();

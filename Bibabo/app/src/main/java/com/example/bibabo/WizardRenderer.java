@@ -43,6 +43,7 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
         mCameraManager.setPreviewTexture(mCamDrawer.getSurfaceTexture());
 
         mBeginTime = new Date();
+        System.currentTimeMillis();
     }
 
     @Override
@@ -52,9 +53,9 @@ public class WizardRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        Date now = new Date();
+//        Date now = new Date();
 //        now - mBeginTime;
-        long ellapsedMS = (now.getTime() - mBeginTime.getTime());
+        long ellapsedMS = (System.currentTimeMillis() - mBeginTime.getTime());
         float ellapsedSecs = ellapsedMS / 1000.f;
 //        Log.d("ayy", String.valueOf(ellapsedSecs));
 
